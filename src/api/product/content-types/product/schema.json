@@ -54,6 +54,42 @@
       "type": "boolean",
       "required": true,
       "default": false
+    },
+    "acts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::act.act",
+      "mappedBy": "product"
+    },
+    "mainPackageFile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "trailerVideo": {
+      "type": "string"
+    },
+    "estimatedDuration": {
+      "type": "string"
+    },
+    "genre": {
+      "type": "string"
+    },
+    "setting": {
+      "type": "string"
+    },
+    "crimeType": {
+      "type": "string"
+    },
+    "unlockMode": {
+      "type": "enumeration",
+      "enum": [
+        "sequential",
+        "free"
+      ],
+      "default": "sequential"
     }
   }
 }
