@@ -68,6 +68,12 @@
         "files"
       ]
     },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "product"
+    },
     "trailerVideo": {
       "type": "string"
     },
