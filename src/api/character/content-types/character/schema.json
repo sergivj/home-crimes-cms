@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "characters",
+  "info": {
+    "singularName": "character",
+    "pluralName": "characters",
+    "displayName": "Character"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "role": {
+      "type": "enumeration",
+      "enum": [
+        "inspector",
+        "priest",
+        "teacher",
+        "suspect",
+        "victim",
+        "familyMember"
+      ]
+    },
+    "age": {
+      "type": "integer"
+    },
+    "bio": {
+      "type": "richtext"
+    },
+    "isAlive": {
+      "type": "boolean"
+    },
+    "case": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::case.case",
+      "inversedBy": "characters",
+      "required": true
+    },
+    "family": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::family.family",
+      "inversedBy": "characters"
+    },
+    "evidence": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::evidence.evidence",
+      "mappedBy": "characters"
+    }
+  }
+}

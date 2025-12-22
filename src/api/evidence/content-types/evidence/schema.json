@@ -1,0 +1,102 @@
+{
+  "kind": "collectionType",
+  "collectionName": "evidence",
+  "info": {
+    "singularName": "evidence",
+    "pluralName": "evidence",
+    "displayName": "Evidence"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "document",
+        "photo",
+        "audio",
+        "object",
+        "clipping"
+      ],
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "isLocked": {
+      "type": "boolean",
+      "default": false
+    },
+    "lockReason": {
+      "type": "text"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "playerNotesHint": {
+      "type": "text"
+    },
+    "case": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::case.case",
+      "inversedBy": "evidence",
+      "required": true
+    },
+    "event": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::event.event",
+      "inversedBy": "evidence"
+    },
+    "locations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::location.location",
+      "inversedBy": "evidence"
+    },
+    "characters": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::character.character",
+      "inversedBy": "evidence"
+    },
+    "families": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::family.family",
+      "inversedBy": "evidence"
+    },
+    "asset": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files",
+        "images",
+        "audios",
+        "videos"
+      ]
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "files",
+        "images",
+        "audios",
+        "videos"
+      ]
+    }
+  }
+}

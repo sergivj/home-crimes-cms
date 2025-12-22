@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_location_map_positions",
+  "info": {
+    "displayName": "Map Position"
+  },
+  "options": {},
+  "attributes": {
+    "x": {
+      "type": "decimal"
+    },
+    "y": {
+      "type": "decimal"
+    }
+  }
+}

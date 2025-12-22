@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_question_options",
+  "info": {
+    "displayName": "Option"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "isCorrect": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

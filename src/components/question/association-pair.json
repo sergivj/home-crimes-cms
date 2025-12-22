@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_question_association_pairs",
+  "info": {
+    "displayName": "Association Pair"
+  },
+  "options": {},
+  "attributes": {
+    "left": {
+      "type": "string"
+    },
+    "right": {
+      "type": "string"
+    }
+  }
+}

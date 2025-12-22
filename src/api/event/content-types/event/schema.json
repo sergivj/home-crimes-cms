@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "orderIndex": {
+      "type": "integer"
+    },
+    "summary": {
+      "type": "richtext"
+    },
+    "statusText": {
+      "type": "text"
+    },
+    "unlockDescription": {
+      "type": "text"
+    },
+    "case": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::case.case",
+      "inversedBy": "events",
+      "required": true
+    },
+    "evidence": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::evidence.evidence",
+      "mappedBy": "event"
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question",
+      "mappedBy": "event"
+    },
+    "locations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::location.location",
+      "inversedBy": "events"
+    }
+  }
+}
