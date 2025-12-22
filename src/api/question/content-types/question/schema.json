@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "questions",
+  "info": {
+    "singularName": "question",
+    "pluralName": "questions",
+    "displayName": "Question"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "prompt": {
+      "type": "text",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "multipleChoice",
+        "association",
+        "chronology"
+      ],
+      "required": true
+    },
+    "hint1": {
+      "type": "text"
+    },
+    "hint2": {
+      "type": "text"
+    },
+    "explanationOnSuccess": {
+      "type": "text"
+    },
+    "options": {
+      "type": "component",
+      "repeatable": true,
+      "component": "question.option"
+    },
+    "associationPairs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "question.association-pair"
+    },
+    "chronologyItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "question.chronology-item"
+    },
+    "case": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::case.case",
+      "inversedBy": "questions",
+      "required": true
+    },
+    "event": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::event.event",
+      "inversedBy": "questions"
+    },
+    "unlockRule": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::unlock-rule.unlock-rule",
+      "inversedBy": "question"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_question_chronology_items",
+  "info": {
+    "displayName": "Chronology Item"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "correctOrderIndex": {
+      "type": "integer"
+    }
+  }
+}

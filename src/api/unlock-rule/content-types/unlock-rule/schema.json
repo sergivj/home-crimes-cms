@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "unlock_rules",
+  "info": {
+    "singularName": "unlock-rule",
+    "pluralName": "unlock-rules",
+    "displayName": "UnlockRule"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "unlockType": {
+      "type": "enumeration",
+      "enum": [
+        "unlockEvidence",
+        "unlockEvent",
+        "unlockLocation"
+      ],
+      "required": true
+    },
+    "evidenceTargets": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::evidence.evidence"
+    },
+    "eventTargets": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::event.event"
+    },
+    "locationTargets": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::location.location"
+    },
+    "question": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::question.question",
+      "mappedBy": "unlockRule"
+    }
+  }
+}
