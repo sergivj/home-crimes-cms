@@ -430,76 +430,247 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiActAct extends Struct.CollectionTypeSchema {
-  collectionName: 'acts';
+export interface ApiCaseCase extends Struct.CollectionTypeSchema {
+  collectionName: 'cases';
   info: {
-    displayName: 'Act';
-    pluralName: 'acts';
-    singularName: 'act';
+    displayName: 'Case';
+    pluralName: 'cases';
+    singularName: 'case';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    clues: Schema.Attribute.Relation<'oneToMany', 'api::clue.clue'>;
+    briefing: Schema.Attribute.RichText;
+    characters: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::character.character'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currentObjectiveTemplate: Schema.Attribute.Text;
+    disclaimer: Schema.Attribute.Text;
+    events: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
+    evidence: Schema.Attribute.Relation<'oneToMany', 'api::evidence.evidence'>;
+    families: Schema.Attribute.Relation<'oneToMany', 'api::family.family'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::case.case'> &
+      Schema.Attribute.Private;
+    locations: Schema.Attribute.Relation<'oneToMany', 'api::location.location'>;
+    publishedAt: Schema.Attribute.DateTime;
+    questions: Schema.Attribute.Relation<'oneToMany', 'api::question.question'>;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    theme: Schema.Attribute.Enumeration<['police-file', 'dark']>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCharacterCharacter extends Struct.CollectionTypeSchema {
+  collectionName: 'characters';
+  info: {
+    displayName: 'Character';
+    pluralName: 'characters';
+    singularName: 'character';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    age: Schema.Attribute.Integer;
+    bio: Schema.Attribute.RichText;
+    case: Schema.Attribute.Relation<'manyToOne', 'api::case.case'> &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    evidence: Schema.Attribute.Relation<'manyToMany', 'api::evidence.evidence'>;
+    family: Schema.Attribute.Relation<'manyToOne', 'api::family.family'>;
+    isAlive: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::character.character'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    role: Schema.Attribute.Enumeration<
+      ['inspector', 'priest', 'teacher', 'suspect', 'victim', 'familyMember']
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEventEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'events';
+  info: {
+    displayName: 'Event';
+    pluralName: 'events';
+    singularName: 'event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    case: Schema.Attribute.Relation<'manyToOne', 'api::case.case'> &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    evidence: Schema.Attribute.Relation<'oneToMany', 'api::evidence.evidence'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
+      Schema.Attribute.Private;
+    locations: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::location.location'
+    >;
+    orderIndex: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    questions: Schema.Attribute.Relation<'oneToMany', 'api::question.question'>;
+    statusText: Schema.Attribute.Text;
+    summary: Schema.Attribute.RichText;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    unlockDescription: Schema.Attribute.Text;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEvidenceEvidence extends Struct.CollectionTypeSchema {
+  collectionName: 'evidence';
+  info: {
+    displayName: 'Evidence';
+    pluralName: 'evidences';
+    singularName: 'evidence';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    asset: Schema.Attribute.Media<'files' | 'images' | 'audios' | 'videos'>;
+    case: Schema.Attribute.Relation<'manyToOne', 'api::case.case'> &
+      Schema.Attribute.Required;
+    characters: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::character.character'
+    >;
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.RichText;
-    image: Schema.Attribute.Media<'images'>;
-    isFinalStep: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    event: Schema.Attribute.Relation<'manyToOne', 'api::event.event'>;
+    families: Schema.Attribute.Relation<'manyToMany', 'api::family.family'>;
+    gallery: Schema.Attribute.Media<
+      'files' | 'images' | 'audios' | 'videos',
+      true
+    >;
+    isLocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::act.act'> &
-      Schema.Attribute.Private;
-    order: Schema.Attribute.Integer & Schema.Attribute.Required;
-    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'> &
-      Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    unlockCode: Schema.Attribute.String;
-    unlockType: Schema.Attribute.Enumeration<
-      ['auto', 'code', 'answer', 'fileSolved']
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::evidence.evidence'
     > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'auto'>;
+      Schema.Attribute.Private;
+    locations: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::location.location'
+    >;
+    lockReason: Schema.Attribute.Text;
+    playerNotesHint: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    tags: Schema.Attribute.JSON;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<
+      ['document', 'photo', 'audio', 'object', 'clipping']
+    > &
+      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    videoUrl: Schema.Attribute.String;
   };
 }
 
-export interface ApiClueClue extends Struct.CollectionTypeSchema {
-  collectionName: 'clues';
+export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
+  collectionName: 'families';
   info: {
-    displayName: 'Clue';
-    pluralName: 'clues';
-    singularName: 'clue';
+    displayName: 'Family';
+    pluralName: 'families';
+    singularName: 'family';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    act: Schema.Attribute.Relation<'manyToOne', 'api::act.act'> &
+    case: Schema.Attribute.Relation<'manyToOne', 'api::case.case'> &
       Schema.Attribute.Required;
-    content: Schema.Attribute.RichText;
+    characters: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::character.character'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    file: Schema.Attribute.Media<'files' | 'images' | 'videos' | 'audios'>;
+    description: Schema.Attribute.RichText;
+    evidence: Schema.Attribute.Relation<'manyToMany', 'api::evidence.evidence'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::clue.clue'> &
-      Schema.Attribute.Private;
-    order: Schema.Attribute.Integer & Schema.Attribute.Required;
-    previewImage: Schema.Attribute.Media<'images'>;
-    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
-    publishedAt: Schema.Attribute.DateTime;
-    solution: Schema.Attribute.String;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    type: Schema.Attribute.Enumeration<
-      ['text', 'pdf', 'image', 'audio', 'video', 'code', 'puzzle', 'qr']
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::family.family'
     > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    type: Schema.Attribute.Enumeration<
+      ['hotel', 'granary', 'church', 'police']
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
+  collectionName: 'locations';
+  info: {
+    displayName: 'Location';
+    pluralName: 'locations';
+    singularName: 'location';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    case: Schema.Attribute.Relation<'manyToOne', 'api::case.case'> &
       Schema.Attribute.Required;
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
+    evidence: Schema.Attribute.Relation<'manyToMany', 'api::evidence.evidence'>;
+    isLocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::location.location'
+    > &
+      Schema.Attribute.Private;
+    lockReason: Schema.Attribute.Text;
+    mapPosition: Schema.Attribute.Component<'location.map-position', false>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -548,7 +719,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    acts: Schema.Attribute.Relation<'oneToMany', 'api::act.act'>;
     bestseller: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
@@ -581,6 +751,98 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     trailerVideo: Schema.Attribute.String;
     unlockMode: Schema.Attribute.Enumeration<['sequential', 'free']> &
       Schema.Attribute.DefaultTo<'sequential'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
+  collectionName: 'questions';
+  info: {
+    displayName: 'Question';
+    pluralName: 'questions';
+    singularName: 'question';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    associationPairs: Schema.Attribute.Component<
+      'question.association-pair',
+      true
+    >;
+    case: Schema.Attribute.Relation<'manyToOne', 'api::case.case'> &
+      Schema.Attribute.Required;
+    chronologyItems: Schema.Attribute.Component<
+      'question.chronology-item',
+      true
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    event: Schema.Attribute.Relation<'manyToOne', 'api::event.event'>;
+    explanationOnSuccess: Schema.Attribute.Text;
+    hint1: Schema.Attribute.Text;
+    hint2: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::question.question'
+    > &
+      Schema.Attribute.Private;
+    options: Schema.Attribute.Component<'question.option', true>;
+    prompt: Schema.Attribute.Text & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    type: Schema.Attribute.Enumeration<
+      ['multipleChoice', 'association', 'chronology']
+    > &
+      Schema.Attribute.Required;
+    unlockRule: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::unlock-rule.unlock-rule'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiUnlockRuleUnlockRule extends Struct.CollectionTypeSchema {
+  collectionName: 'unlock_rules';
+  info: {
+    displayName: 'UnlockRule';
+    pluralName: 'unlock-rules';
+    singularName: 'unlock-rule';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    eventTargets: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
+    evidenceTargets: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::evidence.evidence'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::unlock-rule.unlock-rule'
+    > &
+      Schema.Attribute.Private;
+    locationTargets: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::location.location'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.Relation<'oneToOne', 'api::question.question'>;
+    unlockType: Schema.Attribute.Enumeration<
+      ['unlockEvidence', 'unlockEvent', 'unlockLocation']
+    > &
+      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1097,10 +1359,16 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::act.act': ApiActAct;
-      'api::clue.clue': ApiClueClue;
+      'api::case.case': ApiCaseCase;
+      'api::character.character': ApiCharacterCharacter;
+      'api::event.event': ApiEventEvent;
+      'api::evidence.evidence': ApiEvidenceEvidence;
+      'api::family.family': ApiFamilyFamily;
+      'api::location.location': ApiLocationLocation;
       'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
+      'api::question.question': ApiQuestionQuestion;
+      'api::unlock-rule.unlock-rule': ApiUnlockRuleUnlockRule;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
